@@ -15,38 +15,30 @@ import javax.mail.Store;
 import android.util.Log;
 
 public class GMailReader extends javax.mail.Authenticator {
-	private static final String TAG = "GMailReader";
 	private static final String TAG1 = "jonny";
 
 	private String mailhost = "imap.gmail.com";
 	private Session session;
-	private Store store;
+	public Store store;
 
 	public GMailReader(String user, String password) {
 
 		Properties props = System.getProperties();
 		if (props == null) {
-			Log.e(TAG, "Properties are null !!");
+			Log.e("error", "Properties are null !!");
 		} else {
 			props.setProperty("mail.store.protocol", "imaps");
-
-			Log.d(TAG,"Transport: "+ props.getProperty("mail.transport.protocol"));
-			Log.d(TAG, "Store: " + props.getProperty("mail.store.protocol"));
-			Log.d(TAG, "Host: " + props.getProperty("mail.imap.host"));
-			Log.d(TAG, "Authentication: " + props.getProperty("mail.imap.auth"));
-			Log.d(TAG, "Port: " + props.getProperty("mail.imap.port"));
 		}
 		try {
 			session = Session.getDefaultInstance(props, null);
 			store = session.getStore("imaps");
 			store.connect(mailhost, user, password);
-			Log.i(TAG, "Store: " + store.toString());
 		} catch (NoSuchProviderException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Log.e("conectar", e+"");
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Log.e("conectar", e+"");
 		}
 	}
 
@@ -54,16 +46,24 @@ public class GMailReader extends javax.mail.Authenticator {
 		try {
 			Folder folder = store.getFolder("Inbox");
 			folder.open(Folder.READ_ONLY);
-			Message [] mensajes = folder.getMessages();
-			for (int i=0;i<mensajes.length;i++)
-			{
-				Log.d(TAG1,"From:"+mensajes[i].getFrom()[0].toString());
-				Log.d(TAG1,"Subject:"+mensajes[i].getSubject());
+			int count = folder.getUnreadMessageCount();
+			if (count > 0) {
+				int num = folder.getMessageCount();
+				Log.d("mensaje", "Hay "+ count +" Mensajes sin leer");
+				Message [] mensajes = folder.getMessages((num-count), num);
+				for (int i=0;i <mensajes.length;i++){
+					String sub = mensajes[i].getSubject();
+					if(sub.equals("alerta")){
+					Log.d(TAG1, mensajes[i].getFrom()[0].toString());
+					Log.d(TAG1, mensajes[i].getSubject());
+					Log.d(TAG1, mensajes[i].getReceivedDate().toString());
+				}
+				}
+			}else {
+				Log.d("mensaje", "No hay mensajes nuevos");
 			}
-			
-
-		} catch (Exception e) {
-			Log.e("readMail", e.getMessage(), e);
+		} catch (Exception e) {	
+			Log.e("leer", e.getMessage(), e);
 
 		}
 	}

@@ -21,10 +21,9 @@ public class MainActivity extends ActionBarActivity {
         new AsyncTask<Void, Void, Void>() {
 			@Override
 			protected Void doInBackground(Void... params) {
-				final GMailReader leer = new GMailReader("jrr1047@gmail.com", "1047jonny");
+				final GMailReader leer = new GMailReader("enalvisvanegas@gmail.com", "********");
 				try {
 					leer.readMail();
-					this.cancel(true);
 				} catch (Exception e) {
 					Log.e(TAG, e+"");
 				}
