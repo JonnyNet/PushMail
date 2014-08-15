@@ -4,7 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class Main extends ActionBarActivity implements EstadoGmail {
+public class Config extends ActionBarActivity implements EstadoGmail {
 	Gmail_Imbox u;
 
 	@Override
@@ -12,7 +12,7 @@ public class Main extends ActionBarActivity implements EstadoGmail {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		u = new Gmail_Imbox(Main.this, this, "jrr1047@gmail.com",
+		u = new Gmail_Imbox(Config.this, this, "jrr1047@gmail.com",
 				"jonny300");
 		u.Start();
 

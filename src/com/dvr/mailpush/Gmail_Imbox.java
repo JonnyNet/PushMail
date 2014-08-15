@@ -100,8 +100,8 @@ public class Gmail_Imbox {
 	}
 
 	private void Send(final boolean ssw) {
-		Handler h = new Handler(Looper.getMainLooper());
-		h.post(new Runnable() {
+		new Handler(Looper.getMainLooper()).post(new Runnable() {
+			@Override
 			public void run() {
 				mn.Internet(ssw);
 			}
