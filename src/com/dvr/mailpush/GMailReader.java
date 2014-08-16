@@ -24,9 +24,11 @@ public class GMailReader extends javax.mail.Authenticator {
 	Properties props;
 	public int msg;
 	EstadoGmail mn;
+	private String asunto;
 
-	public GMailReader(EstadoGmail m) {
+	public GMailReader(EstadoGmail m, String sub) {
 		mn = m;
+		asunto = sub;
 		props = System.getProperties();
 		msg = 0;
 		session = Session.getDefaultInstance(props, null);
@@ -68,7 +70,7 @@ public class GMailReader extends javax.mail.Authenticator {
 				for (int i = 0; i < mensajes.length; i++) {
 					String subj = mensajes[i].getSubject().toString();
 
-					if (subj.equals("alerta")
+					if (subj.equals(asunto)
 							&& !mensajes[i].getFlags()
 									.contains(Flags.Flag.SEEN)) {
 						Log.d("holaaaaaaaaaaaaaaaa", subj + " " + i);

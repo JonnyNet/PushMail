@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:padding="10dp">
+    
+    <ImageView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/truvision_logo" 
+        android:contentDescription="@string/logo"/>
+    
+    <EditText 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email_"
+        android:id="@+id/user"
+        android:layout_marginTop="10dp"
+        android:inputType="textEmailAddress"/>
+    
+    <EditText 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password_"
+        android:id="@+id/password"
+        android:layout_marginTop="10dp" 
+        android:inputType="textPassword"/>
+    
+    <EditText 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/subject"
+        android:id="@+id/asunto"
+        android:layout_marginTop="10dp" 
+        android:inputType="text"/>
+    
+    <CheckBox 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:text="@string/vibracion"
+        android:checked="false"
+        android:layout_marginTop="10dp"
+        android:id="@+id/vir"/>
+    
+    <CheckBox 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/alarma"
+        android:checked="false"
+        android:layout_marginTop="10dp"
+        android:id="@+id/sou"/>
+    
+    <Button 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/atras"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:id="@+id/atras"/>
+    
+
+</LinearLayout>

@@ -20,14 +20,17 @@ public class Gmail_Imbox {
 	boolean sw = true;
 	EstadoGmail mn;
 	private boolean parar = true;
+	
 
-	public Gmail_Imbox(Context c, EstadoGmail m, String mail, String pass) {
+	public Gmail_Imbox(Context c, EstadoGmail m, String mail, String pass,String sub) {
 		email = mail;
 		password = pass;
-		gmail = new GMailReader(m);
+		gmail = new GMailReader(m, sub);
 		ctx = c;
 		mn = m;
 	}
+	
+	
 
 	public void Parar() {
 		parar = false;
