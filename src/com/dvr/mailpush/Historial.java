@@ -50,7 +50,7 @@ public class Historial extends Activity {
 		Cursor c = bd.VerTodas();
 		c.moveToFirst();
 		SimpleCursorAdapter cur = new SimpleCursorAdapter(this,
-				android.R.layout.simple_dropdown_item_1line, c, new String[] {
+				android.R.layout.simple_list_item_2, c, new String[] {
 						"alert", "fecha_ingreso" }, new int[] {
 						android.R.id.text1, android.R.id.text2 }, 0);
 		lista.setAdapter(cur);

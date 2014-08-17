@@ -20,62 +20,65 @@
         android:weightSum="2" >
 
         <ImageButton
+            android:id="@+id/call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/call"
             android:contentDescription="@string/boton_mergandias"
             android:src="@drawable/emergencias"
             android:textStyle="bold" />
 
         <ImageButton
+            android:id="@+id/cam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/cam"
             android:contentDescription="@string/boton_camaras"
             android:src="@drawable/camaras"
             android:textStyle="bold" />
     </LinearLayout>
 
-  
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:id="@+id/config"
-            android:contentDescription="@string/boton_configuraciones"
-            android:text="@string/Config"
-            android:textStyle="bold" />
-
-      
+    <Button
+        android:id="@+id/config"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/boton_configuraciones"
+        android:text="@string/Config"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="2" >
 
         <ImageButton
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/historial"
             android:id="@+id/historial"
-            android:textStyle="bold"
-            android:contentDescription="@string/boton_historial"/>
-
-        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/salir"
+            android:contentDescription="@string/boton_historial"
+            android:src="@drawable/historial"
+            android:textStyle="bold" />
+
+        <ImageButton
             android:id="@+id/salir"
-            android:textStyle="bold" 
-            android:contentDescription="@string/boton_salir"/> 
-            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/boton_salir"
+            android:src="@drawable/salir"
+            android:textStyle="bold" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/estado"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold" 
+        android:gravity="center_horizontal"
+        android:textSize="20sp"/>
+
 </LinearLayout>

@@ -20,22 +20,25 @@ public class Admin_db {
 		ContentValues valores = new ContentValues();
 		valores.put("alert", asunto);
 		valores.put("sync", "f");
-		bd.insert("Avatar", null, valores);
+		bd.insert("Notificaciones", null, valores);
 	}
 	
-	
 	public Cursor Notificadas(){
-		return bd.rawQuery("SELECT * FROM  Avatar  WHERE sync = f", null);
+		return bd.rawQuery("SELECT * FROM  Notificaciones  WHERE sync = f", null);
 	}
 	
 	public Cursor VerTodas(){
-		return bd.rawQuery("SELECT * FROM  Avatar ", null);
+		return bd.rawQuery("SELECT * FROM  Notificaciones ", null);
+	}
+	
+	public Cursor Fecha(String fecha){
+		return bd.rawQuery("SELECT * FROM  Notificaciones fecha  LIKE '"+ fecha + "%' ", null);
 	}
 	
 	
 	public Cursor VerDia(){
 		String fecha =  Utilidades.fecha();
-		return bd.rawQuery("SELECT * FROM  Avatar fecha  LIKE '"+ fecha + "%' ", null);
+		return bd.rawQuery("SELECT * FROM  Notificaciones fecha  LIKE '"+ fecha + "%' ", null);
 	}
 	
 	public void Cerrar(){

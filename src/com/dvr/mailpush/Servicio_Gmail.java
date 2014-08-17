@@ -1,55 +1,50 @@
 package com.dvr.mailpush;
 
+import java.util.List;
+
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.provider.CalendarContract.Events;
+import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 public class Servicio_Gmail extends Service implements EstadoGmail {
-
-	Gmail_Imbox gmail;
+	AsynGmail gmail;
 	private NotificationManager nm;
 	int id = 0;
 
 	@Override
 	public void onCreate() {
-		SharedPreferences datos = getSharedPreferences("configuraciones",
-				Context.MODE_PRIVATE);
-		if (datos.getBoolean("save", false)) {
-			String usuario = datos.getString("usuario", "");
-			String password = datos.getString("pass", "");
-			String asunto = datos.getString("subject", "");
-			Log.v("servicio iniciando", usuario + " " + password + " " + asunto);
-			gmail = new Gmail_Imbox(Servicio_Gmail.this, this, usuario,
-					password, asunto);
-			gmail.Start();
-
-			nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		} else {
-			onDestroy();
-		}
-
+		gmail = new AsynGmail(Servicio_Gmail.this, this);
+		gmail.execute();
+		nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		// TODO Auto-generated method stub
-		return super.onStartCommand(intent, flags, startId);
+		return START_REDELIVER_INTENT;
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		gmail.Parar();
+		gmail.cancel(true);
 	}
 
 	@Override
@@ -60,42 +55,75 @@ public class Servicio_Gmail extends Service implements EstadoGmail {
 
 	@Override
 	public void Alerta(String Alert) {
+		Notification notif;
 		Intent i = new Intent(this, Acciones.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i,
-				(int) System.currentTimeMillis());
-		CharSequence ticker = "Nuevo evento en el dvr";
-		CharSequence contentTitle = "ALERTA";
-		CharSequence contentText = "Revise sus camaras porfavor";
-		Uri defaultSound = RingtoneManager
-				.getDefaultUri(RingtoneManager.TYPE_ALARM);
-		Notification noti = new NotificationCompat.Builder(this)
-				.setContentIntent(pendingIntent)
-				.setTicker(ticker)
-				.setContentTitle(contentTitle)
-				.setContentText(contentText)
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+		stackBuilder.addParentStack(Acciones.class);
+		stackBuilder.addNextIntent(i);
+		PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,
+				PendingIntent.FLAG_UPDATE_CURRENT);
+
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+				this)
 				.setSmallIcon(R.drawable.alarma)
-				.addAction(R.drawable.alarma, ticker, pendingIntent)
-				.setVibrate(
-						new long[] { 100, 250, 100, 500, 50, 300, 100, 100, 200 })
-				.setSound(defaultSound).setLights(Color.RED, 0, 1).build();
+				.setContentTitle(Alert)
+				.setContentIntent(resultPendingIntent)
+				.setContentText("Revise sus camaras porfavor")
+				.setVibrate(new long[] { 100, 250, 100, 250 })
+				.setAutoCancel(true)
+				.setOngoing(false)
+				.setSound(
+						RingtoneManager
+								.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+				.setLights(Color.RED, 0, 1)
+				.setTicker("**Notification Arrived!**")
+				.setSound(
+						Uri.parse("android.resource://" + getPackageName()
+								+ "/" + R.raw.alarma))
+				.setLargeIcon(
+						(((BitmapDrawable) getResources().getDrawable(
+								R.drawable.alarma)).getBitmap()));
+		notif = mBuilder.build();
+		notif.flags |= Notification.FLAG_INSISTENT;
+		notif.flags |= Notification.FLAG_AUTO_CANCEL;
+		notif.flags |= Notification.FLAG_SHOW_LIGHTS;
 
-		noti.flags = noti.flags | Notification.FLAG_INSISTENT;
-		noti.flags |= Notification.FLAG_AUTO_CANCEL;
-		nm.notify(id++, noti);
+		nm.notify(id++, notif);
 
 	}
 
 	@Override
-	public void Internet(boolean Internet) {
-		// TODO Auto-generated method stub
-
+	public void OnEvento(String evento) {
+		sendBroadcastMessage(evento);
 	}
 
-	@Override
-	public void Login(boolean login) {
-		if (!login) {
-			onDestroy();
+	private void sendBroadcastMessage(String arg1) {
+		if (ActivityALaVista("com.dvr.mailpush.Acciones")) {
+			Intent intent = new Intent(Events._ID);
+			intent.putExtra("evento", arg1);
+			sendBroadcast(intent);
 		}
 
+	}
+
+	public boolean ActivityALaVista(String nombreClase) {
+		ActivityManager am = (ActivityManager) Servicio_Gmail.this
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+		String nombreClaseActual = null;
+		try {
+			ComponentName componentName = null;
+			if (taskInfo != null && taskInfo.get(0) != null) {
+				componentName = taskInfo.get(0).topActivity;
+			}
+			if (componentName != null) {
+				nombreClaseActual = componentName.getClassName();
+			}
+		} catch (NullPointerException e) {
+			Log.e("eeeerrrrrrrrrrrrrooooooorrrrr",
+					"Error al tomar el nombre de la clase actual " + e);
+			return false;
+		}
+		return nombreClase.equals(nombreClaseActual);
 	}
 }
