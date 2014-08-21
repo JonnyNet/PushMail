@@ -17,7 +17,9 @@
         android:hint="@string/email_"
         android:id="@+id/user"
         android:layout_marginTop="10dp"
-        android:inputType="textEmailAddress"/>
+        android:inputType="textEmailAddress"
+        android:background="@drawable/edittext_select"
+        android:textSize="25sp"/>
     
     <EditText 
         android:layout_width="fill_parent"
@@ -25,7 +27,9 @@
         android:hint="@string/password_"
         android:id="@+id/password"
         android:layout_marginTop="10dp" 
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:background="@drawable/edittext_select"
+        android:textSize="25sp"/>
     
     <EditText 
         android:layout_width="fill_parent"
@@ -33,7 +37,9 @@
         android:hint="@string/subject"
         android:id="@+id/asunto"
         android:layout_marginTop="10dp" 
-        android:inputType="text"/>
+        android:inputType="text"
+        android:background="@drawable/edittext_select"
+        android:textSize="25sp"/>
     
     <CheckBox 
         android:layout_width="fill_parent" 
@@ -51,13 +57,19 @@
         android:layout_marginTop="10dp"
         android:id="@+id/sou"/>
     
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:id="@+id/mensaje"/>
+    
     <Button 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/atras"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:id="@+id/atras"/>
+        android:id="@+id/atras"
+        android:focusableInTouchMode="true"/>
     
 
 </LinearLayout>

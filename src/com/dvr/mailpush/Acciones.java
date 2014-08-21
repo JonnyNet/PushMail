@@ -9,8 +9,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.CalendarContract.Events;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -25,7 +23,6 @@ public class Acciones extends Activity implements OnClickListener {
 	ImageButton cam, call, notic, hist;
 	Button confg, salir;
 	ToggleButton soud;
-	Handler handler;
 	TextView estado;
 	BroadcastReceiver broadcastReceiver;
 
@@ -46,13 +43,6 @@ public class Acciones extends Activity implements OnClickListener {
 		notic.setOnClickListener(this);
 		hist.setOnClickListener(this);
 		confg.setOnClickListener(this);
-		
-		handler = new Handler() {
-			public void handleMessage(Message msg) {
-				 Bundle bundle = msg.getData();
-		            estado.setText(bundle.getString("result"));
-			}};
-
 	}
 
 	@Override
@@ -79,7 +69,7 @@ public class Acciones extends Activity implements OnClickListener {
 		}
 
 	}
-	
+
 	private void Avatar() {
 		Intent v = new Intent("android.intent.action.HISTORIAL");
 		startActivity(v);
@@ -124,7 +114,7 @@ public class Acciones extends Activity implements OnClickListener {
 									+ packageName)));
 				}
 			}
-		} catch (ActivityNotFoundException e) {
+		} catch (ActivityNotFoundException e) {  
 			try {
 				startActivity(new Intent(Intent.ACTION_VIEW,
 						Uri.parse("market://details?id=" + packageName)));
@@ -136,18 +126,6 @@ public class Acciones extends Activity implements OnClickListener {
 			}
 		}
 	}
-	
-	
-	
-	/*@Override
-	protected void onStop() { 
-		if (broadcastReceiver != null) {
-			unregisterReceiver(broadcastReceiver);
-		}
-		super.onStop();
-	}*/
-	
-	
 
 	@Override
 	protected void onPause() {
@@ -163,14 +141,15 @@ public class Acciones extends Activity implements OnClickListener {
 		registerBroadcastReceivers();
 	}
 
-	private void registerBroadcastReceivers(){ 
-        broadcastReceiver = new BroadcastReceiver() {
-                    @Override 
-                    public void onReceive(Context context, Intent intent) {
-                    String ms = intent.getStringExtra("evento");
-                    estado.setText(ms);
-                       }}; 
-         IntentFilter progressfilter = new IntentFilter(Events._ID);
-                registerReceiver(broadcastReceiver,progressfilter);
+	private void registerBroadcastReceivers() {
+		broadcastReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				String ms = intent.getStringExtra("evento");
+				estado.setText(ms);
+			}
+		};
+		IntentFilter progressfilter = new IntentFilter(Events._ID);
+		registerReceiver(broadcastReceiver, progressfilter);
 	}
 }

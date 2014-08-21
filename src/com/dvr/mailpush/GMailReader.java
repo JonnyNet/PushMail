@@ -4,7 +4,6 @@
 package com.dvr.mailpush;
 
 import java.util.Properties;
-
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -12,12 +11,7 @@ import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
-
-import com.dvr.mailpush.sqlite.Admin_db;
-
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 public class GMailReader extends javax.mail.Authenticator {
@@ -65,14 +59,14 @@ public class GMailReader extends javax.mail.Authenticator {
 			for (int i = 0; i < mensajes.length; i++) {
 				String subj = mensajes[i].getSubject().toString();
 
-				if (subj.equals(asunto)
+				if(subj.equalsIgnoreCase(asunto)
 						&& !mensajes[i].getFlags().contains(Flags.Flag.SEEN)) {
-					Admin_db bd = new Admin_db(context);
+					/*Admin_db bd = new Admin_db(context);
 					bd.RegistrarEvento(asunto);
-					bd.Cerrar();
+					bd.Cerrar();*/
 					Log.d("holaaaaaaaaaaaaaaaa", subj + " " + i);
 					mensajes[i].setFlag(Flags.Flag.SEEN, true);
-					mn.Alerta(asunto);
+					mn.Alerta(asunto); 
 				}
 			}
 			folder.close(true);
@@ -87,7 +81,6 @@ public class GMailReader extends javax.mail.Authenticator {
 		try {
 			Thread.sleep(time);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

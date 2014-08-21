@@ -1079,12 +1079,15 @@ containing a value of this type.
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
         public static final int alarma=0x7f020057;
         public static final int camaras=0x7f020058;
-        public static final int emergencias=0x7f020059;
-        public static final int historial=0x7f02005a;
-        public static final int ic_launcher=0x7f02005b;
-        public static final int police=0x7f02005c;
-        public static final int salir=0x7f02005d;
-        public static final int truvision_logo=0x7f02005e;
+        public static final int edit_error=0x7f020059;
+        public static final int edit_true=0x7f02005a;
+        public static final int edittext_select=0x7f02005b;
+        public static final int emergencias=0x7f02005c;
+        public static final int historial=0x7f02005d;
+        public static final int ic_launcher=0x7f02005e;
+        public static final int police=0x7f02005f;
+        public static final int salir=0x7f020060;
+        public static final int truvision_logo=0x7f020061;
     }
     public static final class id {
         public static final int action_bar=0x7f06001c;
@@ -1098,11 +1101,11 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060024;
-        public static final int action_settings=0x7f06004b;
+        public static final int action_settings=0x7f06004c;
         public static final int activity_chooser_view_content=0x7f060025;
         public static final int always=0x7f06000b;
         public static final int asunto=0x7f060047;
-        public static final int atras=0x7f06004a;
+        public static final int atras=0x7f06004b;
         public static final int beginning=0x7f060011;
         public static final int call=0x7f06003c;
         public static final int cam=0x7f06003d;
@@ -1127,6 +1130,7 @@ containing a value of this type.
         public static final int listMode=0x7f060001;
         public static final int list_item=0x7f060029;
         public static final int lista=0x7f060043;
+        public static final int mensaje=0x7f06004a;
         public static final int menu=0x7f060044;
         public static final int middle=0x7f060012;
         public static final int never=0x7f060009;

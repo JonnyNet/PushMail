@@ -14,15 +14,11 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
 import android.provider.CalendarContract.Events;
-import android.provider.ContactsContract.CommonDataKinds.Event;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
+
 
 public class Servicio_Gmail extends Service implements EstadoGmail {
 	AsynGmail gmail;
@@ -31,6 +27,9 @@ public class Servicio_Gmail extends Service implements EstadoGmail {
 
 	@Override
 	public void onCreate() {
+		if (gmail != null) {
+			gmail=null;
+		}
 		gmail = new AsynGmail(Servicio_Gmail.this, this);
 		gmail.execute();
 		nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -43,8 +42,9 @@ public class Servicio_Gmail extends Service implements EstadoGmail {
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		gmail.cancel(true);
+		gmail = null;
+		super.onDestroy();
 	}
 
 	@Override
@@ -52,6 +52,8 @@ public class Servicio_Gmail extends Service implements EstadoGmail {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 
 	@Override
 	public void Alerta(String Alert) {
@@ -89,13 +91,33 @@ public class Servicio_Gmail extends Service implements EstadoGmail {
 		notif.flags |= Notification.FLAG_SHOW_LIGHTS;
 
 		nm.notify(id++, notif);
-
 	}
 
 	@Override
 	public void OnEvento(String evento) {
 		sendBroadcastMessage(evento);
 	}
+	
+	@Override
+	public void Login(boolean login) {
+		//si falla manda true
+		if (login) {
+			sendBroadcastMessage("Login incorrecto");
+			gmail.onCancelled();
+			stopSelf();
+			onDestroy();
+		}
+		
+	}
+	
+	
+	
+	@Override
+	public void onTaskRemoved(Intent rootIntent) {
+		// TODO Auto-generated method stub
+		super.onTaskRemoved(rootIntent);
+	}
+	
 
 	private void sendBroadcastMessage(String arg1) {
 		if (ActivityALaVista("com.dvr.mailpush.Acciones")) {
@@ -120,10 +142,10 @@ public class Servicio_Gmail extends Service implements EstadoGmail {
 				nombreClaseActual = componentName.getClassName();
 			}
 		} catch (NullPointerException e) {
-			Log.e("eeeerrrrrrrrrrrrrooooooorrrrr",
-					"Error al tomar el nombre de la clase actual " + e);
+			e.printStackTrace();
 			return false;
 		}
 		return nombreClase.equals(nombreClaseActual);
 	}
+
 }

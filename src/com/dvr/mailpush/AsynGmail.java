@@ -17,30 +17,36 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 	EstadoGmail Gm;
 	Store st = null;
 	boolean sw = false;
+	boolean logn = true;
 	Context context;
-	String[] Estado = {"No hay Coneccion","Coneccion Exitoza","Fallo en la Coneccion","Buscando Alertas","Error al Leer","Cerrando Coneccion","Durmiendo...","Estableciendo"};
 
 	public AsynGmail(Context c, EstadoGmail l) {
 		Gm = l;
 		context = c;
+		CargarPreferencias();
+		
+	}
+
+	private void CargarPreferencias() {
+
 		SharedPreferences datos = context.getSharedPreferences(
 				"configuraciones", Context.MODE_PRIVATE);
 		if (datos.getBoolean("save", false)) {
 			email = datos.getString("usuario", "");
 			pass = datos.getString("pass", "");
 			String asunto = datos.getString("subject", "");
-			Log.v("servicio iniciando", email + " " + pass + " " + asunto);
-
 			gmail = new GMailReader(context, Gm, asunto);
+			datos = null;
+		} else {
+			Gm.Login(true);
 		}
 	}
 
 	@Override
 	protected Void doInBackground(Void... params) {
 
-		while (true) {
-			
-			onProgressUpdate(7);
+		while (!isCancelled()) {
+			Gm.OnEvento("Estableciendo Conexion");
 			Pause(1000);
 			if (Internet()) {
 				if (st == null) {
@@ -49,10 +55,10 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 
 				if (sw) {
 					try {
-						onProgressUpdate(3);
+						Gm.OnEvento("Buscando Alertas");
 						gmail.readMail(st);
 					} catch (MessagingException e) {
-						onProgressUpdate(4);
+						Gm.OnEvento("Error al Leer");
 						Pause(1000);
 						e.printStackTrace();
 						if (st.isConnected()) {
@@ -62,50 +68,76 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 								sw = false;
 							} catch (MessagingException e1) {
 								e1.printStackTrace();
-								onProgressUpdate(5);
+								Gm.OnEvento("Cerrando Conexion");
 								Pause(1000);
 							}
 						}
 					}
 				}
 			} else {
-				onProgressUpdate(0);
+				Gm.OnEvento("No hay Conexion");
 			}
-			
-			if (Internet()) {
-				onProgressUpdate(6);
+
+			if (Internet() && logn) {
+				Gm.OnEvento("Durmiendo...");
 				Pause(20000);
 			}
 			Pause(30000);
 		}
+		return null;
 	}
 	
+	
+
+	@Override
+	protected void onCancelled() {
+		try {
+			if (st != null) {
+				st.close();
+				Gm.OnEvento("Coneccion cerrada");
+			}
+		} catch (MessagingException e) {
+			Gm.OnEvento("Error cerrar Conexion");
+			e.printStackTrace();
+		}
+		super.onCancelled();
+	}
+
 	private void Pause(long time) {
 		try {
-			Thread.sleep(time);
+			Thread.sleep(time);  
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
-	@Override
-	protected void onProgressUpdate(Integer... values) {
-		Gm.OnEvento(Estado[(int)values[0]]);
-	}
-
 	private void UpGm() {
 		try {
+			
+			SharedPreferences datos = context.getSharedPreferences(
+					"configuraciones", Context.MODE_PRIVATE);
+			
+			Log.w("login", datos.getString("usuario", "")+" "+datos.getString("pass", ""));
+			Log.w("login", email+" "+pass);
 			st = gmail.Conectar(email, pass);
 			if (st.isConnected()) {
 				sw = true;
-				onProgressUpdate(1);
+				Gm.OnEvento("Coneccion Exitoza");
 				Pause(1000);
 			}
 		} catch (MessagingException e) {
-			e.printStackTrace();
 			st = null;
-			onProgressUpdate(2);
+			String error = e.getMessage().toString();
+			if (error.equals("[AUTHENTICATIONFAILED] Invalid credentials (Failure)")) {
+				Gm.OnEvento("Login Incorrecto");
+				logn = false;
+				Gm.Login(true);
+			}else{
+				Gm.OnEvento("Fallo en la Coneccion");
+			}
+			
 			Pause(1000);
+			e.printStackTrace();
 		}
 	}
 
