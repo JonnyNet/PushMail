@@ -2,13 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp" >
+    android:padding="15dp" 
+    android:background="#D2F8FF">
 
     <Spinner
         android:id="@+id/select"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:background="@drawable/spinner_select" />
 
 
 
@@ -25,7 +27,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/menu"
         android:layout_alignParentBottom="true"
-        android:text="@string/atras"
-        android:layout_centerHorizontal="true"/>
+        android:text="@string/menu"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/botones_style"/>
 
 </RelativeLayout>

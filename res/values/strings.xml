@@ -13,9 +13,11 @@
     <string name="boton_historial">boton historial</string>
     <string name="password_">PASSWORD:</string>
     <string name="email_">EMAIL:</string>
-    <string name="subject">SUBJECT</string>
+    <string name="subject">ASUNTO</string>
     <string name="vibracion">VIBRACION</string>
     <string name="alarma">ALARMA</string>
     <string name="atras">GUARDAR</string>
+    <string name="menu">MENU</string>
+    <string name="iniciar">INICIAR</string>
 
 </resources>

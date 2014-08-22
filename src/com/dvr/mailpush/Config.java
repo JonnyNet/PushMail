@@ -1,8 +1,5 @@
 package com.dvr.mailpush;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.mail.MessagingException;
 import javax.mail.Store;
 
@@ -12,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -24,12 +22,12 @@ import android.widget.TextView;
 public class Config extends Activity implements OnFocusChangeListener,OnClickListener {
 	EditText email, password, asunto;
 	CheckBox vibracion, alarma;
-	Button Guardar;
+	Button Guardar, menu, iniciar;
 	TextView mensaje;
 	GMailReader validar ;
 
 	private SharedPreferences ConfigPreferent;
-	private SharedPreferences.Editor Configeditor;
+	private SharedPreferences.Editor Configeditor; 
 	private Boolean save;
 
 	@Override
@@ -43,20 +41,27 @@ public class Config extends Activity implements OnFocusChangeListener,OnClickLis
 		vibracion = (CheckBox) findViewById(R.id.vir);
 		alarma = (CheckBox) findViewById(R.id.sou);
 		mensaje = (TextView) findViewById(R.id.mensaje);
-		Guardar = (Button) findViewById(R.id.atras);
-
+		Guardar = (Button) findViewById(R.id.guardar);
+		menu = (Button) findViewById(R.id.menu);
+		iniciar = (Button) findViewById(R.id.iniciar);
+		
 		ConfigPreferent = getSharedPreferences("configuraciones", MODE_PRIVATE);
 		Configeditor = ConfigPreferent.edit();
 		save = ConfigPreferent.getBoolean("save", false);
 		CargarPrefes();
 		
-		vibracion.setOnClickListener(this);
-		alarma.setOnClickListener(this);
 		password.setOnFocusChangeListener(this);
 		email.setOnFocusChangeListener(this);
 		asunto.setOnFocusChangeListener(this);
-		Guardar.setEnabled(false);
+		iniciar.setEnabled(false);
 		Guardar.setOnClickListener(this);
+		menu.setOnClickListener(this);
+		iniciar.setOnClickListener(this);
+		
+		Vibrator v =  (Vibrator) getSystemService(Context.VIBRATOR_SERVICE); 
+		if (!v.hasVibrator()) {
+			vibracion.setEnabled(false);
+		}
 	}
 
 	private void CargarPrefes() {
@@ -73,26 +78,28 @@ public class Config extends Activity implements OnFocusChangeListener,OnClickLis
 	public void onFocusChange(View v, boolean hasFocus) {
 
 		if (v == email && hasFocus == false
-				&& EmailValid(email.getText().toString())) {
+				&& Utilidades.EmailValid(email.getText().toString())) {
 			email.setBackgroundResource(R.drawable.edit_true);
 			Conectar();
 		} else if (v == email && hasFocus == false
 				&& email.getText().toString().equals("")) {
 			email.setBackgroundResource(R.drawable.edit_error);
 			mensaje.setText("Email Campo Requerido");
-		}else if(!EmailValid(email.getText().toString())){
+		}else if(!Utilidades.EmailValid(email.getText().toString())){
 			email.setBackgroundResource(R.drawable.edit_error);
-			mensaje.setText("Formato de Correo Invalido");			
+			mensaje.setText("Formato de Correo Invalido");
+			iniciar.setEnabled(false);
 		}
 
 		if (v == password && hasFocus == false
 				&& password.getText().toString().length() > 7) {
 			password.setBackgroundResource(R.drawable.edit_true);
 			Conectar();
-		} else if (v == email && hasFocus == false
+		} else if (v == password && hasFocus == false
 				&& password.getText().toString().length() < 8) {
 			password.setBackgroundResource(R.drawable.edit_error);
 			mensaje.setText("Contraseña Invalida");
+			iniciar.setEnabled(false);
 		}
 
 		if (v == asunto && hasFocus == false
@@ -108,22 +115,10 @@ public class Config extends Activity implements OnFocusChangeListener,OnClickLis
 
 	}
 	
-	private static boolean EmailValid(String email) {
-		boolean isValid = false;
-
-		String expression = "[a-zA-Z0-9._-]+@gmail.com";
-		CharSequence inputStr = email;
-
-		Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-		Matcher matcher = pattern.matcher(inputStr);
-		if (matcher.matches()) {
-			isValid = true;
-		}
-		return isValid;
-	}
+	
 	
 	private void Conectar() {
-		if (EmailValid(email.getText().toString()) && password.getText().length() > 7) {
+		if (Utilidades.EmailValid(email.getText().toString()) && password.getText().length() > 7) {
 			ValidarCuenta();
 		}
 		
@@ -167,9 +162,10 @@ public class Config extends Activity implements OnFocusChangeListener,OnClickLis
 				if (!result) {
 					email.setBackgroundResource(R.drawable.edit_error);
 					password.setBackgroundResource(R.drawable.edit_error);
+					iniciar.setEnabled(false);
 					
 				}else{
-					Guardar.setEnabled(true);
+					iniciar.setEnabled(true);
 					email.setBackgroundResource(R.drawable.edit_true);
 					password.setBackgroundResource(R.drawable.edit_true);
 				}
@@ -189,28 +185,26 @@ public class Config extends Activity implements OnFocusChangeListener,OnClickLis
 			Configeditor.putString("subject", asunto.getText().toString());
 			Configeditor.putString("pass", password.getText().toString());
 			Configeditor.commit();
-
-			InputMethodManager tecladoVirtual = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			tecladoVirtual.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
-			Intent intent = new Intent("android.intent.action.ACCIONES");
-			startActivity(intent);
-
-			Intent s = new Intent(Config.this, Servicio_Gmail.class);
-			startService(s);
+			OcultarTeclado(v);
+			mensaje.setText("Preferencia Guardada");
 		}
 		
-		if (v == vibracion || v == alarma) {
-			if (asunto.hasFocus()) 
-				Guardar.requestFocus();
+		if (v == menu) {
+			Intent intent = new Intent("android.intent.action.ACCIONES");
+			startActivity(intent);
+			OcultarTeclado(v);
+		}
+		
+		if (v == iniciar) {
+			Intent s = new Intent(Config.this, Servicio_Gmail.class);
+			startService(s);
+			
+			mensaje.setText("Se Ha Iniciado Servicio");
 		}
 	}
-	
 	
 	private void  OcultarTeclado(View v) {
 		InputMethodManager tecladoVirtual = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		tecladoVirtual.hideSoftInputFromWindow(v.getWindowToken(), 0);
 	}
-	
-
 }

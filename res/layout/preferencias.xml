@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="#D2F8FF">
     
     <ImageView 
         android:layout_width="fill_parent"
@@ -47,7 +48,8 @@
         android:text="@string/vibracion"
         android:checked="false"
         android:layout_marginTop="10dp"
-        android:id="@+id/vir"/>
+        android:id="@+id/vir"
+        android:button="@drawable/check_box"/>
     
     <CheckBox 
         android:layout_width="fill_parent"
@@ -55,21 +57,55 @@
         android:text="@string/alarma"
         android:checked="false"
         android:layout_marginTop="10dp"
-        android:id="@+id/sou"/>
+        android:id="@+id/sou"
+        android:button="@drawable/check_box"/>
     
     <TextView android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:id="@+id/mensaje"/>
     
-    <Button 
+  <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+        
+      <Button 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"       
+        android:id="@+id/menu"
+        android:text="@string/menu"
+        android:background="@drawable/botones_style"
+        style="@attr/buttonBarButtonStyle"
+        android:layout_marginRight="1dp"/>
+      
+        
+        <Button 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/iniciar"
+        android:id="@+id/iniciar"
+        android:focusableInTouchMode="true"
+        android:background="@drawable/botones_style"
+        style="@attr/buttonBarButtonStyle"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"/> 
+        
+        
+        <Button 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"       
+        android:id="@+id/guardar"
         android:text="@string/atras"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:id="@+id/atras"
-        android:focusableInTouchMode="true"/>
-    
-
+        android:background="@drawable/botones_style"
+        style="@attr/buttonBarButtonStyle"
+        android:layout_marginLeft="1dp"/>
+ 
+        
+    </LinearLayout>
 </LinearLayout>

@@ -3,43 +3,26 @@ package com.dvr.mailpush;
 import javax.mail.MessagingException;
 import javax.mail.Store;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 
-	GMailReader gmail;
-	String email;
-	String pass;
-	EstadoGmail Gm;
-	Store st = null;
+	private GMailReader gmail;
+	private String email;
+	private String pass;
+	private EstadoGmail Gm;
+	private Store st = null;
 	boolean sw = false;
 	boolean logn = true;
-	Context context;
+	private Context context;
 
-	public AsynGmail(Context c, EstadoGmail l) {
+	public AsynGmail(Context c, EstadoGmail l,String nombre, String passw, String asunto) {
 		Gm = l;
 		context = c;
-		CargarPreferencias();
-		
-	}
-
-	private void CargarPreferencias() {
-
-		SharedPreferences datos = context.getSharedPreferences(
-				"configuraciones", Context.MODE_PRIVATE);
-		if (datos.getBoolean("save", false)) {
-			email = datos.getString("usuario", "");
-			pass = datos.getString("pass", "");
-			String asunto = datos.getString("subject", "");
-			gmail = new GMailReader(context, Gm, asunto);
-			datos = null;
-		} else {
-			Gm.Login(true);
-		}
+		gmail = new GMailReader(c, Gm, asunto);
+		email = nombre;
+		pass = passw;
 	}
 
 	@Override
@@ -48,7 +31,7 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 		while (!isCancelled()) {
 			Gm.OnEvento("Estableciendo Conexion");
 			Pause(1000);
-			if (Internet()) {
+			if (Utilidades.Internet(context)) {
 				if (st == null) {
 					UpGm();
 				}
@@ -78,7 +61,7 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 				Gm.OnEvento("No hay Conexion");
 			}
 
-			if (Internet() && logn) {
+			if (Utilidades.Internet(context) && logn) {
 				Gm.OnEvento("Durmiendo...");
 				Pause(20000);
 			}
@@ -93,7 +76,9 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 	protected void onCancelled() {
 		try {
 			if (st != null) {
-				st.close();
+				if (st.isConnected()) {
+					st.close();
+				}
 				Gm.OnEvento("Coneccion cerrada");
 			}
 		} catch (MessagingException e) {
@@ -113,11 +98,6 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 
 	private void UpGm() {
 		try {
-			
-			SharedPreferences datos = context.getSharedPreferences(
-					"configuraciones", Context.MODE_PRIVATE);
-			
-			Log.w("login", datos.getString("usuario", "")+" "+datos.getString("pass", ""));
 			Log.w("login", email+" "+pass);
 			st = gmail.Conectar(email, pass);
 			if (st.isConnected()) {
@@ -140,18 +120,4 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 			e.printStackTrace();
 		}
 	}
-
-	private boolean Internet() {
-		boolean bConectado = false;
-		ConnectivityManager connec = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo[] redes = connec.getAllNetworkInfo();
-		for (int i = 0; i < 2; i++) {
-			if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
-				bConectado = true;
-			}
-		}
-		return bConectado;
-	}
-
 }

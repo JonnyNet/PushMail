@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="15dp" >
+    android:padding="15dp" 
+    android:background="#D2F8FF">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -26,32 +27,39 @@
             android:layout_weight="1"
             android:contentDescription="@string/boton_mergandias"
             android:src="@drawable/emergencias"
-            android:textStyle="bold" />
-
+            android:textStyle="bold" 
+            android:background="@drawable/imagebutton"
+            android:layout_marginRight="2dp"/>
+        
+        
         <ImageButton
             android:id="@+id/cam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:contentDescription="@string/boton_camaras"
-            android:src="@drawable/camaras"
-            android:textStyle="bold" />
+            android:src="@drawable/camara"
+            android:textStyle="bold"
+            android:background="@drawable/imagebutton" 
+            android:layout_marginLeft="2dp"/>
+        
     </LinearLayout>
 
     <Button
         android:id="@+id/config"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:contentDescription="@string/boton_configuraciones"
         android:text="@string/Config"
-        android:textStyle="bold" />
+        android:background="@drawable/botones_style"
+        android:layout_marginTop="5dp"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2" >
+        android:weightSum="2" 
+        android:layout_marginTop="5dp">
 
         <ImageButton
             android:id="@+id/historial"
@@ -60,7 +68,9 @@
             android:layout_weight="1"
             android:contentDescription="@string/boton_historial"
             android:src="@drawable/historial"
-            android:textStyle="bold" />
+            android:textStyle="bold" 
+            android:background="@drawable/imagebutton"
+            android:layout_marginRight="2dp"/>
 
         <ImageButton
             android:id="@+id/salir"
@@ -69,7 +79,9 @@
             android:layout_weight="1"
             android:contentDescription="@string/boton_salir"
             android:src="@drawable/salir"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@drawable/imagebutton"
+            android:layout_marginLeft="2dp" />
     </LinearLayout>
 
     <TextView
