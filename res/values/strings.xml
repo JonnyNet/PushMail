@@ -14,10 +14,12 @@
     <string name="password_">PASSWORD:</string>
     <string name="email_">EMAIL:</string>
     <string name="subject">ASUNTO</string>
+    <string name="from">DE:</string>
     <string name="vibracion">VIBRACION</string>
     <string name="alarma">ALARMA</string>
     <string name="atras">GUARDAR</string>
     <string name="menu">MENU</string>
     <string name="iniciar">INICIAR</string>
+    <string name="copy">© 2014 Powered by Mobilsoft SAS </string>
 
 </resources>

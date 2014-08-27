@@ -13,9 +13,9 @@ public class BD_helper extends SQLiteOpenHelper {
 	private static final String Avatar = "Notificaciones";
 
 	public static final String tabla1 = "CREATE TABLE " + Avatar + " ( "
-			+ "_id  integer primary key autoincrement, "
-			+ "alert	Varchar not null, " + "sync char not null, "
-			+ "fecha_ingreso TIMESTAMP NOT NULL DEFAULT current_timestamp )";
+			+ "_id  Integer primary key, " + "alert Varchar not null, "
+			+ "fron Varchar not null, "
+			+ "fecha TIMESTAMP NOT NULL DEFAULT current_timestamp )";
 
 	public BD_helper(Context context) {
 		super(context, BD_NAME, null, BD_VERSION);
@@ -26,9 +26,10 @@ public class BD_helper extends SQLiteOpenHelper {
 		try {
 			db.execSQL(tabla1);
 		} catch (Exception e) {
-			Log.e("bd", e+"");
+			e.printStackTrace();
+			Log.e("error", e.getMessage().toString());
 		}
-		
+
 	}
 
 	@Override

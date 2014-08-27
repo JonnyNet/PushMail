@@ -4,7 +4,6 @@ import javax.mail.MessagingException;
 import javax.mail.Store;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 
@@ -17,7 +16,8 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 	boolean logn = true;
 	private Context context;
 
-	public AsynGmail(Context c, EstadoGmail l,String nombre, String passw, String asunto) {
+	public AsynGmail(Context c, EstadoGmail l, String nombre, String passw,
+			String asunto) {
 		Gm = l;
 		context = c;
 		gmail = new GMailReader(c, Gm, asunto);
@@ -29,8 +29,6 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 	protected Void doInBackground(Void... params) {
 
 		while (!isCancelled()) {
-			Gm.OnEvento("Estableciendo Conexion");
-			Pause(1000);
 			if (Utilidades.Internet(context)) {
 				if (st == null) {
 					UpGm();
@@ -63,14 +61,12 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 
 			if (Utilidades.Internet(context) && logn) {
 				Gm.OnEvento("Durmiendo...");
-				Pause(20000);
+				Pause(10000);
 			}
-			Pause(30000);
+			Pause(15000);
 		}
 		return null;
 	}
-	
-	
 
 	@Override
 	protected void onCancelled() {
@@ -90,15 +86,16 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 
 	private void Pause(long time) {
 		try {
-			Thread.sleep(time);  
+			Thread.sleep(time);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void UpGm() {
+		Gm.OnEvento("Estableciendo Conexion");
+		Pause(1000);
 		try {
-			Log.w("login", email+" "+pass);
 			st = gmail.Conectar(email, pass);
 			if (st.isConnected()) {
 				sw = true;
@@ -108,14 +105,15 @@ public class AsynGmail extends AsyncTask<Void, Integer, Void> {
 		} catch (MessagingException e) {
 			st = null;
 			String error = e.getMessage().toString();
-			if (error.equals("[AUTHENTICATIONFAILED] Invalid credentials (Failure)")) {
+			if (error
+					.equals("[AUTHENTICATIONFAILED] Invalid credentials (Failure)")) {
 				Gm.OnEvento("Login Incorrecto");
 				logn = false;
 				Gm.Login(true);
-			}else{
+			} else {
 				Gm.OnEvento("Fallo en la Coneccion");
 			}
-			
+
 			Pause(1000);
 			e.printStackTrace();
 		}

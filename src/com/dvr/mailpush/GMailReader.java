@@ -4,6 +4,7 @@
 package com.dvr.mailpush;
 
 import java.util.Properties;
+
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -11,8 +12,10 @@ import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
+
+import com.dvr.mailpush.sqlite.Admin_db;
+
 import android.content.Context;
-import android.util.Log;
 
 public class GMailReader extends javax.mail.Authenticator {
 	private String mailhost = "imap.gmail.com";
@@ -53,20 +56,20 @@ public class GMailReader extends javax.mail.Authenticator {
 			int num = folder.getMessageCount();
 			mn.OnEvento("Hay " + count + " Mensajes sin leer");
 			Pause(1000);
-			
+
 			Message[] mensajes = folder.getMessages((num - count), num);
 
 			for (int i = 0; i < mensajes.length; i++) {
 				String subj = mensajes[i].getSubject().toString();
+				String from = mensajes[i].getFrom()[0].toString();
 
-				if(subj.equalsIgnoreCase(asunto)
+				if (subj.equalsIgnoreCase(asunto)
 						&& !mensajes[i].getFlags().contains(Flags.Flag.SEEN)) {
-					/*Admin_db bd = new Admin_db(context);
-					bd.RegistrarEvento(asunto);
-					bd.Cerrar();*/
-					Log.d("holaaaaaaaaaaaaaaaa", subj + " " + i);
+					String[] de = from.split("<");
+					Admin_db bd = new Admin_db(context);
+					bd.RegistrarEvento(asunto, de[0]);
 					mensajes[i].setFlag(Flags.Flag.SEEN, true);
-					mn.Alerta(asunto); 
+					mn.Alerta(asunto);
 				}
 			}
 			folder.close(true);
@@ -76,13 +79,13 @@ public class GMailReader extends javax.mail.Authenticator {
 			Pause(1000);
 		}
 	}
-	
-	private void  Pause(long time) {
+
+	private void Pause(long time) {
 		try {
 			Thread.sleep(time);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }

@@ -89,7 +89,7 @@ public class Servicio_Gmail extends Service implements EstadoGmail {
 
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				this)
-				.setSmallIcon(R.drawable.alarma)
+				.setSmallIcon(R.drawable.logoalertap)
 				.setContentTitle("Alerta")
 				.setContentIntent(resultPendingIntent)
 				.setContentText("Revise sus camaras porfavor")
@@ -99,7 +99,7 @@ public class Servicio_Gmail extends Service implements EstadoGmail {
 				.setTicker("**Notification Arrived!**")
 				.setLargeIcon(
 						((((BitmapDrawable) getResources().getDrawable(
-								R.drawable.alarma)).getBitmap())));
+								R.drawable.logoalertap)).getBitmap())));
 		
 		if(alarma){
 			mBuilder.setSound(

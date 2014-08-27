@@ -22,10 +22,10 @@ public class Historial extends Activity {
 	ListView lista;
 	Admin_db bd;
 	String[] fecha = { "HOY", "TODAS" };
+	SimpleCursorAdapter cur;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.historial);
 		bd = new Admin_db(this);
@@ -39,17 +39,24 @@ public class Historial extends Activity {
 				startActivity(intent);
 			}
 		});
-		
+
 		ArrayAdapter<String> adacter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line, fecha);
 		opcion.setAdapter(adacter);
-		
+
 		opcion.setOnItemLongClickListener(new OnItemLongClickListener() {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				
+				if (position == 0) {
+					Cursor c = bd.VerDia();
+					cur.changeCursor(c);
+				} else if (position == 1) {
+					Cursor c = bd.VerTodas();
+					cur.changeCursor(c);
+				}
+
 				return false;
 			}
 		});
@@ -58,13 +65,13 @@ public class Historial extends Activity {
 	}
 
 	private void CArgarCursor() {
-		Cursor c = bd.VerTodas();
-		c.moveToFirst();
-		SimpleCursorAdapter cur = new SimpleCursorAdapter(this,
-				android.R.layout.simple_list_item_2, c, new String[] {
-						"alert", "fecha_ingreso" }, new int[] {
-						android.R.id.text1, android.R.id.text2 }, 0);
-		lista.setAdapter(cur);
+		Cursor c = bd.VerDia();
+		if (c.moveToFirst()) {
+			cur = new SimpleCursorAdapter(this, R.layout.listview, c,
+					new String[] { "fron", "fecha" }, new int[] { R.id.from,
+							R.id.fecha }, 0);
+			lista.setAdapter(cur);
+		}
 	}
 
 	@Override

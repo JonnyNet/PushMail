@@ -1077,7 +1077,7 @@ containing a value of this type.
         public static final int abc_textfield_searchview_holo_light=0x7f020054;
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
-        public static final int alarma=0x7f020057;
+        public static final int boton=0x7f020057;
         public static final int botones_style=0x7f020058;
         public static final int btn_dropdown_normal=0x7f020059;
         public static final int btn_dropdown_pressed=0x7f02005a;
@@ -1091,11 +1091,13 @@ containing a value of this type.
         public static final int historial=0x7f020062;
         public static final int ic_launcher=0x7f020063;
         public static final int imagebutton=0x7f020064;
-        public static final int police=0x7f020065;
-        public static final int salir=0x7f020066;
-        public static final int spinner_select=0x7f020067;
-        public static final int truvision_logo=0x7f020068;
-        public static final int unchecked=0x7f020069;
+        public static final int logoalertap=0x7f020065;
+        public static final int logomail=0x7f020066;
+        public static final int police=0x7f020067;
+        public static final int salir=0x7f020068;
+        public static final int spinner_select=0x7f020069;
+        public static final int truvision_logo=0x7f02006a;
+        public static final int unchecked=0x7f02006b;
     }
     public static final class id {
         public static final int action_bar=0x7f06001c;
@@ -1109,10 +1111,10 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060024;
-        public static final int action_settings=0x7f06004d;
+        public static final int action_settings=0x7f060051;
         public static final int activity_chooser_view_content=0x7f060025;
         public static final int always=0x7f06000b;
-        public static final int asunto=0x7f060047;
+        public static final int asunto=0x7f06004b;
         public static final int beginning=0x7f060011;
         public static final int call=0x7f06003c;
         public static final int cam=0x7f06003d;
@@ -1128,24 +1130,28 @@ containing a value of this type.
         public static final int estado=0x7f060041;
         public static final int expand_activities_button=0x7f060026;
         public static final int expanded_menu=0x7f06002c;
-        public static final int guardar=0x7f06004c;
+        public static final int fecha=0x7f060048;
+        public static final int from=0x7f060047;
+        public static final int guardar=0x7f060050;
         public static final int historial=0x7f06003f;
         public static final int home=0x7f060014;
         public static final int homeAsUp=0x7f060005;
         public static final int icon=0x7f06002a;
         public static final int ifRoom=0x7f06000a;
         public static final int image=0x7f060027;
-        public static final int iniciar=0x7f06004b;
+        public static final int img=0x7f060045;
+        public static final int iniciar=0x7f06004f;
         public static final int listMode=0x7f060001;
         public static final int list_item=0x7f060029;
         public static final int lista=0x7f060043;
-        public static final int mensaje=0x7f06004a;
+        public static final int ly2=0x7f060046;
+        public static final int mensaje=0x7f06004e;
         public static final int menu=0x7f060044;
         public static final int middle=0x7f060012;
         public static final int never=0x7f060009;
         public static final int none=0x7f060010;
         public static final int normal=0x7f060000;
-        public static final int password=0x7f060046;
+        public static final int password=0x7f06004a;
         public static final int progress_circular=0x7f060018;
         public static final int progress_horizontal=0x7f060019;
         public static final int radio=0x7f06002f;
@@ -1165,7 +1171,7 @@ containing a value of this type.
         public static final int showCustom=0x7f060007;
         public static final int showHome=0x7f060004;
         public static final int showTitle=0x7f060006;
-        public static final int sou=0x7f060049;
+        public static final int sou=0x7f06004d;
         public static final int split_action_bar=0x7f06001e;
         public static final int submit_area=0x7f060039;
         public static final int tabMode=0x7f060002;
@@ -1173,8 +1179,8 @@ containing a value of this type.
         public static final int top_action_bar=0x7f060020;
         public static final int up=0x7f060021;
         public static final int useLogo=0x7f060003;
-        public static final int user=0x7f060045;
-        public static final int vir=0x7f060048;
+        public static final int user=0x7f060049;
+        public static final int vir=0x7f06004c;
         public static final int withText=0x7f06000c;
     }
     public static final class integer {
@@ -1284,22 +1290,24 @@ containing a value of this type.
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0b000b;
         public static final int action_settings=0x7f0b000f;
-        public static final int alarma=0x7f0b001b;
+        public static final int alarma=0x7f0b001c;
         public static final int app_name=0x7f0b000d;
-        public static final int atras=0x7f0b001c;
+        public static final int atras=0x7f0b001d;
         public static final int boton_camaras=0x7f0b0012;
         public static final int boton_configuraciones=0x7f0b0014;
         public static final int boton_historial=0x7f0b0016;
         public static final int boton_mergandias=0x7f0b0013;
         public static final int boton_salir=0x7f0b0015;
+        public static final int copy=0x7f0b0020;
         public static final int email_=0x7f0b0018;
+        public static final int from=0x7f0b001a;
         public static final int hello_world=0x7f0b000e;
-        public static final int iniciar=0x7f0b001e;
+        public static final int iniciar=0x7f0b001f;
         public static final int logo=0x7f0b0010;
-        public static final int menu=0x7f0b001d;
+        public static final int menu=0x7f0b001e;
         public static final int password_=0x7f0b0017;
         public static final int subject=0x7f0b0019;
-        public static final int vibracion=0x7f0b001a;
+        public static final int vibracion=0x7f0b001b;
     }
     public static final class style {
         /** 

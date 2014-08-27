@@ -29,7 +29,8 @@
             android:src="@drawable/emergencias"
             android:textStyle="bold" 
             android:background="@drawable/imagebutton"
-            android:layout_marginRight="2dp"/>
+            android:layout_marginRight="2dp"
+            android:layout_marginEnd="2dp"/>
         
         
         <ImageButton
@@ -41,7 +42,8 @@
             android:src="@drawable/camara"
             android:textStyle="bold"
             android:background="@drawable/imagebutton" 
-            android:layout_marginLeft="2dp"/>
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"/>
         
     </LinearLayout>
 
@@ -51,7 +53,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/boton_configuraciones"
         android:text="@string/Config"
-        android:background="@drawable/botones_style"
+        android:background="@drawable/boton"
         android:layout_marginTop="5dp"/>
 
     <LinearLayout
@@ -70,7 +72,8 @@
             android:src="@drawable/historial"
             android:textStyle="bold" 
             android:background="@drawable/imagebutton"
-            android:layout_marginRight="2dp"/>
+            android:layout_marginRight="2dp"
+            android:layout_marginEnd="2dp"/>
 
         <ImageButton
             android:id="@+id/salir"
@@ -81,7 +84,8 @@
             android:src="@drawable/salir"
             android:textStyle="bold"
             android:background="@drawable/imagebutton"
-            android:layout_marginLeft="2dp" />
+            android:layout_marginLeft="2dp" 
+            android:layout_marginStart="2dp"/>
     </LinearLayout>
 
     <TextView

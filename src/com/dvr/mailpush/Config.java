@@ -79,15 +79,16 @@ public class Config extends Activity implements OnFocusChangeListener,OnClickLis
 
 		if (v == email && hasFocus == false
 				&& Utilidades.EmailValid(email.getText().toString())) {
+			Mensaje("");
 			email.setBackgroundResource(R.drawable.edit_true);
 			Conectar();
 		} else if (v == email && hasFocus == false
 				&& email.getText().toString().equals("")) {
 			email.setBackgroundResource(R.drawable.edit_error);
-			mensaje.setText("Email Campo Requerido");
+			Mensaje("Email Campo Requerido");
 		}else if(!Utilidades.EmailValid(email.getText().toString())){
 			email.setBackgroundResource(R.drawable.edit_error);
-			mensaje.setText("Formato de Correo Invalido");
+			Mensaje("Formato de Correo Invalido");
 			iniciar.setEnabled(false);
 		}
 
@@ -98,7 +99,7 @@ public class Config extends Activity implements OnFocusChangeListener,OnClickLis
 		} else if (v == password && hasFocus == false
 				&& password.getText().toString().length() < 8) {
 			password.setBackgroundResource(R.drawable.edit_error);
-			mensaje.setText("Contraseña Invalida");
+			Mensaje("Contraseña Invalida");
 			iniciar.setEnabled(false);
 		}
 
@@ -109,10 +110,14 @@ public class Config extends Activity implements OnFocusChangeListener,OnClickLis
 		} else if (v == asunto  && hasFocus == false
 				&& asunto.getText().toString().equals("")) {
 			asunto.setBackgroundResource(R.drawable.edit_error);
-			mensaje.setText("Asunto Campo requerido");
+			Mensaje("Asunto Campo requerido");
 			OcultarTeclado(v);
 		}
 
+	}
+	
+	private void Mensaje(String ms){
+		mensaje.setText(ms);
 	}
 	
 	
@@ -131,6 +136,7 @@ public class Config extends Activity implements OnFocusChangeListener,OnClickLis
 			@Override
 			protected void onPreExecute() {
 				validar = new GMailReader(null, null, null);
+				publishProgress("Comprovando Cuenta...");
 			}
 			@Override
 			protected Boolean doInBackground(Void... params) {
@@ -186,7 +192,7 @@ public class Config extends Activity implements OnFocusChangeListener,OnClickLis
 			Configeditor.putString("pass", password.getText().toString());
 			Configeditor.commit();
 			OcultarTeclado(v);
-			mensaje.setText("Preferencia Guardada");
+			Mensaje("Preferencias Guardadas");
 		}
 		
 		if (v == menu) {
@@ -199,7 +205,17 @@ public class Config extends Activity implements OnFocusChangeListener,OnClickLis
 			Intent s = new Intent(Config.this, Servicio_Gmail.class);
 			startService(s);
 			
-			mensaje.setText("Se Ha Iniciado Servicio");
+			Mensaje("Se Ha Iniciado Servicio");
+			
+			Configeditor.putBoolean("save", true);
+			Configeditor.putBoolean("vibra", vibracion.isChecked());
+			Configeditor.putBoolean("son", alarma.isChecked());
+			Configeditor.putString("usuario", email.getText().toString());
+			Configeditor.putString("subject", asunto.getText().toString());
+			Configeditor.putString("pass", password.getText().toString());
+			Configeditor.commit();
+			OcultarTeclado(v);
+			Guardar.setEnabled(false);
 		}
 	}
 	

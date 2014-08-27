@@ -10,7 +10,14 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/truvision_logo" 
-        android:contentDescription="@string/logo"/>
- 
+        android:contentDescription="@string/logo"
+        android:src="@drawable/truvision_logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/copy" 
+        android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>

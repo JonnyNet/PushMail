@@ -1,34 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="15dp" 
-    android:background="#D2F8FF">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="15dp" >
 
     <Spinner
         android:id="@+id/select"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_height="50dp"
         android:background="@drawable/spinner_select" />
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:orientation="horizontal" >
 
         <ListView
             android:id="@+id/lista"
-            android:layout_below="@+id/select"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="fill_parent"
+            android:dividerHeight="2dp" >
         </ListView>
+    </LinearLayout>
 
-    
-    <Button 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/menu"
-        android:layout_alignParentBottom="true"
-        android:text="@string/menu"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/botones_style"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal" 
+        android:gravity="center_horizontal"
+        android:layout_marginTop="5dp">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/boton"
+            android:text="@string/menu" />
+
+    </LinearLayout>
+
+</LinearLayout>

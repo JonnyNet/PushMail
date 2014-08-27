@@ -16,29 +16,22 @@ public class Admin_db {
 		bd = helper.getWritableDatabase();
 	}
 	
-	public void RegistrarEvento(String asunto) {
+	public void RegistrarEvento(String asunto, String from) {
 		ContentValues valores = new ContentValues();
 		valores.put("alert", asunto);
-		valores.put("sync", "f");
+		valores.put("fron", from);
 		bd.insert("Notificaciones", null, valores);
 	}
 	
-	public Cursor Notificadas(){
-		return bd.rawQuery("SELECT * FROM  Notificaciones  WHERE sync = f", null);
-	}
 	
 	public Cursor VerTodas(){
 		return bd.rawQuery("SELECT * FROM  Notificaciones ", null);
 	}
-	
-	public Cursor Fecha(String fecha){
-		return bd.rawQuery("SELECT * FROM  Notificaciones fecha  LIKE '"+ fecha + "%' ", null);
-	}
-	
+		
 	
 	public Cursor VerDia(){
 		String fecha =  Utilidades.fecha();
-		return bd.rawQuery("SELECT * FROM  Notificaciones fecha  LIKE '"+ fecha + "%' ", null);
+		return bd.rawQuery("SELECT * FROM  Notificaciones WHERE fecha  LIKE '"+ fecha + "%' ", null);
 	}
 	
 	public void Cerrar(){
